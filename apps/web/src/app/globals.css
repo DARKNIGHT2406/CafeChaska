@@ -1,0 +1,29 @@
+@import "tailwindcss";
+
+:root {
+  /* Japandi Palette */
+  --cream: #F5F5DC;
+  --wood: #8B5A2B;
+  --dark: #333333;
+  
+  --background: var(--cream);
+  --foreground: var(--dark);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  
+  --color-cream: var(--cream);
+  --color-wood: var(--wood);
+  --color-dark: var(--dark);
+  
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+}

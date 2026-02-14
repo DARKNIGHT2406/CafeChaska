@@ -1,0 +1,45 @@
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+    images: {
+        remotePatterns: [
+            {
+                protocol: 'https',
+                hostname: '**',
+            },
+            {
+                protocol: 'http',
+                hostname: '**',
+            }
+        ],
+    },
+    // Allow all hosts (for Ngrok)
+    allowedPatterns: [
+        {
+            hostname: '**',
+        }
+    ],
+    // Disable strict host check for dev servers in some envs
+    experimental: {
+        // serverActions: true, // not needed in v15
+    },
+    typescript: {
+        ignoreBuildErrors: true
+    },
+    eslint: {
+        ignoreDuringBuilds: true
+    },
+    async rewrites() {
+        return [
+            {
+                source: '/api/:path*',
+                destination: 'http://localhost:5000/api/:path*', // Proxy to Backend
+            },
+            {
+                source: '/uploads/:path*',
+                destination: 'http://localhost:5000/uploads/:path*', // Proxy to Uploads
+            }
+        ];
+    },
+};
+
+module.exports = nextConfig;

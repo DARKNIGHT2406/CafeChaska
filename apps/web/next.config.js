@@ -28,18 +28,18 @@ const nextConfig = {
     eslint: {
         ignoreDuringBuilds: true
     },
-    async rewrites() {
-        return [
-            {
-                source: '/api/:path*',
-                destination: 'http://localhost:5000/api/:path*', // Proxy to Backend
-            },
-            {
-                source: '/uploads/:path*',
-                destination: 'http://localhost:5000/uploads/:path*', // Proxy to Uploads
-            }
-        ];
-    },
+    const API_URL = process.env.API_URL || 'http://localhost:5000';
+    return [
+        {
+            source: '/api/:path*',
+            destination: `${API_URL}/api/:path*`, // Proxy to Backend
+        },
+        {
+            source: '/uploads/:path*',
+            destination: `${API_URL}/uploads/:path*`, // Proxy to Uploads
+        }
+    ];
+},
 };
 
 module.exports = nextConfig;

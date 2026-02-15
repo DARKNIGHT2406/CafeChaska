@@ -23,8 +23,8 @@ export default function CustomerOrderPage({ params }) {
         const fetchMenu = async () => {
             try {
                 const [catRes, itemRes] = await Promise.all([
-                    fetch(`${API_URL}/api/categories/${cafe_slug}`),
-                    fetch(`${API_URL}/api/menu-items/${cafe_slug}?categoryId=all`)
+                    fetch(`${API_URL}/api/categories/${cafe_slug}`, { headers: { 'ngrok-skip-browser-warning': 'true' } }),
+                    fetch(`${API_URL}/api/menu-items/${cafe_slug}?categoryId=all`, { headers: { 'ngrok-skip-browser-warning': 'true' } })
                 ]);
                 const cats = await catRes.json();
                 const menuItems = await itemRes.json();

@@ -18,7 +18,7 @@ export default function MenuManager({ cafeSlug }) {
 
     // Fetch Categories on Mount
     useEffect(() => {
-        fetch(`${API_URL}/api/categories/${cafeSlug}`)
+        fetch(`${API_URL}/api/categories/${cafeSlug}`, { headers: { 'ngrok-skip-browser-warning': 'true' } })
             .then(res => res.json())
             .then(data => {
                 setCategories(data);
@@ -31,7 +31,7 @@ export default function MenuManager({ cafeSlug }) {
     useEffect(() => {
         if (!selectedCategory) return;
         setLoading(true);
-        fetch(`${API_URL}/api/menu-items/${cafeSlug}?categoryId=${selectedCategory}`)
+        fetch(`${API_URL}/api/menu-items/${cafeSlug}?categoryId=${selectedCategory}`, { headers: { 'ngrok-skip-browser-warning': 'true' } })
             .then(res => res.json())
             .then(data => {
                 setItems(data);

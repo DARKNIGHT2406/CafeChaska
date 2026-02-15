@@ -1,3 +1,5 @@
+'use client';
+
 import { useState, useEffect } from 'react';
 import ItemModal from '@/components/ItemModal';
 import { API_URL } from '@/config';

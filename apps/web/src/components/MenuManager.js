@@ -117,7 +117,7 @@ export default function MenuManager({ cafeSlug }) {
     };
 
     return (
-        <div>
+        <div className="w-full max-w-full">
             {/* Category Navigation */}
             <div className="flex overflow-x-auto gap-4 py-4 mb-4 md:mb-6 border-b border-wood/10 scrollbar-hide items-center">
                 {categories.map(cat => {

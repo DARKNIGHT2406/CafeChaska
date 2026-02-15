@@ -1,6 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Edit, Trash2, X } from 'lucide-react';
 import ItemModal from '@/components/ItemModal';
 import { API_URL } from '@/config';
 
@@ -171,69 +173,11 @@ export default function MenuManager({ cafeSlug }) {
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {items.map(item => (
-                        <div key={item.id} className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all border border-wood/5 group relative flex flex-row md:flex-col h-28 md:h-auto">
-                            <div className="w-28 md:w-full h-full md:h-48 bg-gray-200 relative overflow-hidden shrink-0">
-                                {item.videoUrl ? (
-                                    <video
-                                        src={item.videoUrl}
-                                        className="w-full h-full object-cover"
-                                        muted
-                                        onMouseOver={e => e.target.play()}
-                                        onMouseOut={e => e.target.pause()}
-                                    />
-                                ) : (
-                                    <img
-                                        src={item.imageUrl || (item.images && item.images[0]) || 'https://placehold.co/400?text=No+Image'}
-                                        alt={item.name}
-                                        onError={(e) => { e.target.src = 'https://placehold.co/400?text=Image+Error'; }}
-                                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                    />
-                                )}
-
-                                {/* Icons for multi-media */}
-                                <div className="absolute bottom-2 left-2 flex gap-1">
-                                    {item.images && item.images.length > 0 && (
-                                        <span className="bg-black/50 text-white text-xs px-2 py-0.5 rounded-full backdrop-blur-sm">
-                                            📷 {item.images.length}
-                                        </span>
-                                    )}
-                                    {item.videoUrl && (
-                                        <span className="bg-black/50 text-white text-xs px-2 py-0.5 rounded-full backdrop-blur-sm">
-                                            🎥
-                                        </span>
-                                    )}
-                                </div>
-
-                                {/* Click area for edit */}
-                                <div
-                                    onClick={() => openEditModal(item)}
-                                    className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors cursor-pointer"
-                                ></div>
-
-                                <button
-                                    onClick={() => openEditModal(item)}
-                                    className="absolute top-4 right-4 bg-white/90 p-2 rounded-full shadow-sm hover:bg-white text-wood opacity-0 group-hover:opacity-100 transition-opacity z-10"
-                                >
-                                    ✏️
-                                </button>
-                            </div>
-
-                            <div className="p-3 md:p-4 flex-1 flex flex-col justify-center md:block min-w-0" onClick={() => openEditModal(item)}>
-                                <div className="flex justify-between items-start mb-2">
-                                    <h3 className="font-bold text-dark text-lg">{item.name}</h3>
-                                    <span className="font-bold text-wood">₹{item.price}</span>
-                                </div>
-                                <p className="text-sm text-dark/60 line-clamp-2">{item.description}</p>
-
-                                <div className="mt-4 flex flex-wrap gap-2">
-                                    {item.ingredients?.map((ing, i) => (
-                                        <span key={i} className="text-xs bg-cream text-wood/80 px-2 py-1 rounded-md">
-                                            {ing}
-                                        </span>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
+                        <ManagerItemCard
+                            key={item.id}
+                            item={item}
+                            onEdit={() => openEditModal(item)}
+                        />
                     ))}
 
                     {/* Add Item Card */}
@@ -256,5 +200,117 @@ export default function MenuManager({ cafeSlug }) {
                 onSave={handleSaveItem}
             />
         </div>
+    );
+}
+
+function ManagerItemCard({ item, onEdit }) {
+    const [isExpanded, setIsExpanded] = useState(false);
+    const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+    const images = item.images && item.images.length > 0
+        ? item.images
+        : [item.imageUrl || 'https://placehold.co/400x300?text=No+Image'];
+
+    useEffect(() => {
+        if (images.length <= 1) return;
+        const interval = setInterval(() => {
+            setCurrentImageIndex(prev => (prev + 1) % images.length);
+        }, 3000);
+        return () => clearInterval(interval);
+    }, [images.length]);
+
+    return (
+        <motion.div
+            layout
+            onClick={() => setIsExpanded(!isExpanded)}
+            className="bg-white rounded-2xl shadow-sm border border-wood/5 overflow-hidden relative"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+        >
+            {/* Image Carousel */}
+            <div className="relative h-48 bg-gray-100 overflow-hidden">
+                <AnimatePresence mode='wait'>
+                    <motion.img
+                        key={currentImageIndex}
+                        src={images[currentImageIndex]}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.5 }}
+                        className="w-full h-full object-cover"
+                        onError={(e) => e.target.src = 'https://placehold.co/400?text=Error'}
+                    />
+                </AnimatePresence>
+
+                {/* Dots */}
+                {images.length > 1 && (
+                    <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1">
+                        {images.map((_, i) => (
+                            <div
+                                key={i}
+                                className={`w-1.5 h-1.5 rounded-full transition-colors ${i === currentImageIndex ? 'bg-white' : 'bg-white/50'}`}
+                            />
+                        ))}
+                    </div>
+                )}
+
+                {/* Edit Button Overlay */}
+                <button
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        onEdit();
+                    }}
+                    className="absolute top-3 right-3 bg-white/90 p-2 rounded-full shadow-sm text-wood hover:scale-110 transition-transform"
+                >
+                    <Edit size={18} />
+                </button>
+            </div>
+
+            {/* Content */}
+            <div className="p-4">
+                <div className="flex justify-between items-start mb-1">
+                    <h3 className="font-bold text-lg text-dark leading-tight">{item.name}</h3>
+                    <div className="font-bold text-wood">₹{item.price}</div>
+                </div>
+
+                <p className="text-sm text-dark/60 line-clamp-2">
+                    {item.description}
+                </p>
+
+                {/* Expanded Content */}
+                <AnimatePresence>
+                    {isExpanded && (
+                        <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: 'auto', opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            className="mt-4 border-t border-wood/10 pt-3"
+                        >
+                            {item.ingredients && item.ingredients.length > 0 && (
+                                <div className="mb-2">
+                                    <h4 className="text-xs font-bold text-dark/70 uppercase tracking-wider mb-1">Ingredients</h4>
+                                    <div className="flex flex-wrap gap-1">
+                                        {item.ingredients.map((ing, i) => (
+                                            <span key={i} className="text-xs bg-cream px-2 py-1 rounded text-wood/80">{ing}</span>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+                            <div className="flex justify-end mt-2">
+                                <button
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        onEdit();
+                                    }}
+                                    className="text-xs text-wood font-bold underline"
+                                >
+                                    Edit Full Details
+                                </button>
+                            </div>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+            </div>
+        </motion.div>
     );
 }

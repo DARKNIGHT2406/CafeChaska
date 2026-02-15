@@ -171,7 +171,7 @@ export default function MenuManager({ cafeSlug }) {
             {loading ? (
                 <div className="flex justify-center py-20 text-wood/50">Loading delicious items...</div>
             ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6">
                     {items.map(item => (
                         <ManagerItemCard
                             key={item.id}
@@ -183,7 +183,7 @@ export default function MenuManager({ cafeSlug }) {
                     {/* Add Item Card */}
                     <button
                         onClick={openAddModal}
-                        className="bg-cream/50 rounded-2xl border-2 border-dashed border-wood/20 flex flex-col items-center justify-center min-h-[112px] md:min-h-[300px] hover:bg-cream hover:border-wood/40 transition-all text-wood/60 hover:text-wood"
+                        className="bg-cream/50 rounded-2xl border-2 border-dashed border-wood/20 flex flex-col items-center justify-center min-h-[112px] md:min-h-[300px] hover:bg-cream hover:border-wood/40 transition-all text-wood/60 hover:text-wood mb-4"
                     >
                         <span className="text-4xl mb-2">+</span>
                         <span className="font-medium">Add New Item</span>
@@ -223,7 +223,7 @@ function ManagerItemCard({ item, onEdit }) {
         <motion.div
             layout
             onClick={() => setIsExpanded(!isExpanded)}
-            className="bg-white rounded-2xl shadow-sm border border-wood/5 overflow-hidden relative"
+            className="bg-white rounded-2xl shadow-sm border border-wood/5 overflow-hidden relative mb-4"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
         >

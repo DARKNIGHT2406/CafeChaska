@@ -80,8 +80,7 @@ export default function Sidebar({ cafeSlug }) {
                 </div>
             </aside>
 
-            {/* Spacer for mobile header to prevent content overlap */}
-            <div className="md:hidden h-16 w-full"></div>
+
         </>
     );
 }

@@ -15,7 +15,9 @@ export default function TableManagement({ params }) {
 
     const fetchTables = async () => {
         try {
-            const res = await fetch(`${API_URL}/api/tables/${cafe_slug}`);
+            const res = await fetch(`${API_URL}/api/tables/${cafe_slug}`, {
+                headers: { 'ngrok-skip-browser-warning': 'true' }
+            });
             const data = await res.json();
             setTables(data);
             setLoading(false);
@@ -32,7 +34,10 @@ export default function TableManagement({ params }) {
         try {
             const res = await fetch(`${API_URL}/api/tables/${cafe_slug}`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'ngrok-skip-browser-warning': 'true'
+                },
                 body: JSON.stringify({ tableNumber: newTableNum })
             });
 
@@ -101,8 +106,12 @@ export default function TableManagement({ params }) {
                         <div key={table.id} className="bg-white rounded-2xl p-6 shadow-sm border border-wood/10 flex flex-col items-center text-center">
                             <h3 className="text-2xl font-bold text-wood mb-4">Table {table.tableNumber}</h3>
 
-                            <div className="bg-white p-2 border border-wood/10 rounded-lg mb-4">
-                                <img src={table.qrCodeData} alt="QR Code" className="w-48 h-48" />
+                            <div className="bg-white p-2 border border-wood/10 rounded-lg mb-4 flex justify-center items-center min-h-[200px]">
+                                {table.qrCodeData ? (
+                                    <img src={table.qrCodeData} alt="QR Code" className="w-48 h-48" />
+                                ) : (
+                                    <span className="text-sm text-red-500">QR Missing</span>
+                                )}
                             </div>
 
                             <div className="flex gap-2 w-full">

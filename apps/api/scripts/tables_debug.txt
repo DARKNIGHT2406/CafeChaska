@@ -1,0 +1,23 @@
+Connected to DB
+Found 7 tables.
+Table t1 (Cafe: undefined)
+ - QR Data Length: 2642
+ - Preview: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQA...
+Table s1 (Cafe: CAFE001)
+ - QR Data Length: 2670
+ - Preview: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQA...
+Table sq (Cafe: CAFE001)
+ - QR Data Length: 2670
+ - Preview: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQA...
+Table d1 (Cafe: CAFE001)
+ - QR Data Length: 2658
+ - Preview: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQA...
+Table e12 (Cafe: CAFE001)
+ - QR Data Length: 3658
+ - Preview: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANQA...
+Table W1 (Cafe: CAFE015)
+ - QR Data Length: 3754
+ - Preview: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANQA...
+Table Wq (Cafe: CAFE012)
+ - QR Data Length: 3702
+ - Preview: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANQA...

@@ -254,26 +254,38 @@ function ManagerItemCard({ item, onEdit }) {
                     </div>
                 )}
 
-                {/* Edit Button Overlay */}
-                <button
-                    onClick={(e) => {
-                        e.stopPropagation();
-                        onEdit();
-                    }}
-                    className="absolute top-3 right-3 bg-white/90 p-2 rounded-full shadow-sm text-wood hover:scale-110 transition-transform"
-                >
-                    <Edit size={18} />
-                </button>
+                {/* Veg/Non-Veg Indicator */}
+                <div className="absolute top-3 right-3 bg-white/90 backdrop-blur rounded p-1 shadow-sm">
+                    <div className={`w-3 h-3 border-2 ${item.isVeg !== false ? 'border-green-600' : 'border-red-600'} flex items-center justify-center`}>
+                        <div className={`w-1.5 h-1.5 rounded-full ${item.isVeg !== false ? 'bg-green-600' : 'bg-red-600'}`}></div>
+                    </div>
+                </div>
             </div>
 
             {/* Content */}
             <div className="p-4">
                 <div className="flex justify-between items-start mb-1">
-                    <h3 className="font-bold text-lg text-dark leading-tight">{item.name}</h3>
-                    <div className="font-bold text-wood">₹{item.price}</div>
+                    <div className="flex-1">
+                        <h3 className="font-bold text-lg text-dark leading-tight">{item.name}</h3>
+                        <div className="font-bold text-wood">₹{item.price}</div>
+                    </div>
+
+                    {/* Edit Button Area (Styled exactly like ADD button) */}
+                    <div className="flex flex-col items-end">
+                        <motion.button
+                            whileTap={{ scale: 0.9 }}
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                onEdit();
+                            }}
+                            className="bg-cream text-wood border border-wood/20 px-6 py-2 rounded-lg font-bold shadow-sm uppercase text-sm hover:bg-wood hover:text-cream transition-colors"
+                        >
+                            EDIT
+                        </motion.button>
+                    </div>
                 </div>
 
-                <p className="text-sm text-dark/60 line-clamp-2">
+                <p className="text-sm text-dark/60 mt-2 line-clamp-2">
                     {item.description}
                 </p>
 
@@ -296,17 +308,6 @@ function ManagerItemCard({ item, onEdit }) {
                                     </div>
                                 </div>
                             )}
-                            <div className="flex justify-end mt-2">
-                                <button
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        onEdit();
-                                    }}
-                                    className="text-xs text-wood font-bold underline"
-                                >
-                                    Edit Full Details
-                                </button>
-                            </div>
                         </motion.div>
                     )}
                 </AnimatePresence>

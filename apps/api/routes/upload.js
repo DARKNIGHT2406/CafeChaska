@@ -5,6 +5,7 @@ const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+const os = require('os');
 
 // Debug logs
 console.log('--- Upload Route Init ---');
@@ -34,13 +35,26 @@ if (isCloudinaryConfigured) {
         },
     });
     upload = multer({ storage: storage });
+
 } else {
     console.log('Configuring Local Disk Storage (Fallback)');
 
-    // Ensure uploads dir exists
-    const uploadDir = path.join(__dirname, '../uploads');
-    if (!fs.existsSync(uploadDir)) {
-        fs.mkdirSync(uploadDir, { recursive: true });
+    let uploadDir;
+    try {
+        uploadDir = path.join(__dirname, '../uploads');
+        if (!fs.existsSync(uploadDir)) {
+            fs.mkdirSync(uploadDir, { recursive: true });
+        }
+    } catch (err) {
+        console.warn('Failed to create local uploads dir, using temp dir:', err.message);
+        uploadDir = path.join(os.tmpdir(), 'cafe_chaska_uploads');
+        if (!fs.existsSync(uploadDir)) {
+            try {
+                fs.mkdirSync(uploadDir, { recursive: true });
+            } catch (e) {
+                console.error('Failed to create temp uploads dir:', e.message);
+            }
+        }
     }
 
     const storage = multer.diskStorage({

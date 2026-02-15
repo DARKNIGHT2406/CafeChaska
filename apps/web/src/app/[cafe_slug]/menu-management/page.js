@@ -5,7 +5,7 @@ export default async function MenuPage({ params }) {
 
     return (
         <div>
-            <h1 className="text-3xl font-bold text-wood mb-6">Menu Management</h1>
+            <h1 className="text-2xl md:text-3xl font-bold text-wood mb-4 md:mb-6">Menu Management</h1>
             <MenuManager cafeSlug={cafe_slug} />
         </div>
     );

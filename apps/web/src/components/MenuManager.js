@@ -117,7 +117,7 @@ export default function MenuManager({ cafeSlug }) {
     return (
         <div>
             {/* Category Navigation */}
-            <div className="flex overflow-x-auto gap-4 py-4 mb-6 border-b border-wood/10 scrollbar-hide items-center">
+            <div className="flex overflow-x-auto gap-4 py-4 mb-4 md:mb-6 border-b border-wood/10 scrollbar-hide items-center">
                 {categories.map(cat => {
                     const isSelected = selectedCategory === cat.id;
                     const isEditing = editingCategoryId === cat.id;
@@ -171,8 +171,8 @@ export default function MenuManager({ cafeSlug }) {
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {items.map(item => (
-                        <div key={item.id} className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all border border-wood/5 group relative">
-                            <div className="h-48 bg-gray-200 relative overflow-hidden">
+                        <div key={item.id} className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all border border-wood/5 group relative flex flex-row md:flex-col h-28 md:h-auto">
+                            <div className="w-28 md:w-full h-full md:h-48 bg-gray-200 relative overflow-hidden shrink-0">
                                 {item.videoUrl ? (
                                     <video
                                         src={item.videoUrl}
@@ -218,7 +218,7 @@ export default function MenuManager({ cafeSlug }) {
                                 </button>
                             </div>
 
-                            <div className="p-4" onClick={() => openEditModal(item)}>
+                            <div className="p-3 md:p-4 flex-1 flex flex-col justify-center md:block min-w-0" onClick={() => openEditModal(item)}>
                                 <div className="flex justify-between items-start mb-2">
                                     <h3 className="font-bold text-dark text-lg">{item.name}</h3>
                                     <span className="font-bold text-wood">₹{item.price}</span>
@@ -239,7 +239,7 @@ export default function MenuManager({ cafeSlug }) {
                     {/* Add Item Card */}
                     <button
                         onClick={openAddModal}
-                        className="bg-cream/50 rounded-2xl border-2 border-dashed border-wood/20 flex flex-col items-center justify-center min-h-[300px] hover:bg-cream hover:border-wood/40 transition-all text-wood/60 hover:text-wood"
+                        className="bg-cream/50 rounded-2xl border-2 border-dashed border-wood/20 flex flex-col items-center justify-center min-h-[112px] md:min-h-[300px] hover:bg-cream hover:border-wood/40 transition-all text-wood/60 hover:text-wood"
                     >
                         <span className="text-4xl mb-2">+</span>
                         <span className="font-medium">Add New Item</span>

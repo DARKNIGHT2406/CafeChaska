@@ -109,7 +109,7 @@ export default function ItemModal({ isOpen, onClose, item, categoryId, cafeSlug,
 
                 <form onSubmit={handleSubmit} className="space-y-4">
                     {/* Basic Info */}
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <label className="block text-sm font-medium text-dark/70 mb-1">Item Name</label>
                             <input

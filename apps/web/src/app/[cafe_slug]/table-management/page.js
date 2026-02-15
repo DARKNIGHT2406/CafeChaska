@@ -74,12 +74,12 @@ export default function TableManagement({ params }) {
     };
 
     return (
-        <div className="p-8 max-w-6xl mx-auto">
+        <div className="p-4 md:p-8 max-w-6xl mx-auto">
             <h1 className="text-4xl font-bold text-wood mb-2">Table Management</h1>
             <p className="text-wood/60 mb-8">Manage tables and generate specific QR codes for ordering.</p>
 
             {/* Add Table Form */}
-            <div className="bg-white p-6 rounded-2xl shadow-sm border border-wood/10 mb-8 flex gap-4 items-end">
+            <div className="bg-white p-6 rounded-2xl shadow-sm border border-wood/10 mb-8 flex flex-col md:flex-row md:items-end gap-4">
                 <div className="flex-1">
                     <label className="block text-sm font-medium text-dark/70 mb-1">New Table Number / Name</label>
                     <input
@@ -91,7 +91,7 @@ export default function TableManagement({ params }) {
                 </div>
                 <button
                     onClick={handleAddTable}
-                    className="bg-wood text-cream px-8 py-3 rounded-xl hover:opacity-90 transition-opacity font-medium h-[50px"
+                    className="bg-wood text-cream px-8 py-3 rounded-xl hover:opacity-90 transition-opacity font-medium h-[50px] w-full md:w-auto"
                 >
                     + Add Table
                 </button>

@@ -24,25 +24,29 @@ export default function LoginPage() {
                 body: JSON.stringify({ cafeId: e.target.email.value, password: e.target.password.value }),
             });
 
-            const data = await res.json();
+            let data;
+            const contentType = res.headers.get('content-type');
+            if (contentType && contentType.includes('application/json')) {
+                data = await res.json();
+            } else {
+                const text = await res.text();
+                console.error('Non-JSON response:', text);
+                throw new Error(`Server returned ${res.status} (${res.statusText}). Body: ${text.substring(0, 100)}...`);
+            }
 
             if (!res.ok) {
                 throw new Error(data.message || 'Login failed');
             }
 
             // Success
-            // Set cookie for 1 day
             document.cookie = `token=${data.token}; path=/; max-age=86400`;
-            // Redirect to cafe specific dashboard
-            // Redirect to cafe specific dashboard
+
             if (data.cafe && data.cafe.slug) {
                 console.log('Redirecting to:', `/${data.cafe.slug}/dashboard`);
                 router.push(`/${data.cafe.slug}/dashboard`);
             } else {
                 console.error('Login successful but no slug found:', data);
-                // instead of redirecting to 404 /dashboard, show an error or fallback
                 setError('Login successful, but Cafe data is missing. Please contact support.');
-                // router.push('/dashboard'); // Removed 404 trigger
             }
 
         } catch (err) {

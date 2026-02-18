@@ -1,0 +1,12 @@
+{
+    "rewrites": [
+        {
+            "source": "/api/:path*",
+            "destination": "https://cafe-chaska-api.onrender.com/api/:path*"
+        },
+        {
+            "source": "/uploads/:path*",
+            "destination": "https://cafe-chaska-api.onrender.com/uploads/:path*"
+        }
+    ]
+}

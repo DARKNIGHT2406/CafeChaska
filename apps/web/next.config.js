@@ -31,6 +31,15 @@ const nextConfig = {
                 destination: `${API_URL}/uploads/:path*`, // Proxy to Uploads
             }
         ];
+    },
+    async redirects() {
+        return [
+            {
+                source: '/',
+                destination: '/login',
+                permanent: true,
+            },
+        ];
     }
 };
 

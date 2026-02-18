@@ -34,10 +34,15 @@ export default function LoginPage() {
             // Set cookie for 1 day
             document.cookie = `token=${data.token}; path=/; max-age=86400`;
             // Redirect to cafe specific dashboard
+            // Redirect to cafe specific dashboard
             if (data.cafe && data.cafe.slug) {
+                console.log('Redirecting to:', `/${data.cafe.slug}/dashboard`);
                 router.push(`/${data.cafe.slug}/dashboard`);
             } else {
-                router.push('/dashboard'); // Fallback
+                console.error('Login successful but no slug found:', data);
+                // instead of redirecting to 404 /dashboard, show an error or fallback
+                setError('Login successful, but Cafe data is missing. Please contact support.');
+                // router.push('/dashboard'); // Removed 404 trigger
             }
 
         } catch (err) {

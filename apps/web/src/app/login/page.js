@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { API_URL } from '@/config';
 
@@ -8,6 +8,18 @@ export default function LoginPage() {
     const router = useRouter();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
+    const [health, setHealth] = useState('Checking backend...');
+
+    // Health Check on Mount
+    useEffect(() => {
+        fetch(`${API_URL}/`)
+            .then(res => {
+                if (res.ok) return res.text();
+                throw new Error(`Status: ${res.status}`);
+            })
+            .then(text => setHealth(`Online: ${text.substring(0, 20)}`))
+            .catch(err => setHealth(`Offline: ${err.message}`));
+    }, []);
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -15,6 +27,7 @@ export default function LoginPage() {
         setError('');
 
         try {
+            console.log('Attempting login to:', `${API_URL}/api/auth/login`);
             const res = await fetch(`${API_URL}/api/auth/login`, {
                 method: 'POST',
                 headers: {
@@ -61,6 +74,12 @@ export default function LoginPage() {
             <div className="w-full max-w-md bg-white p-8 rounded-2xl shadow-lg animate-in zoom-in-95 duration-300">
                 <h2 className="text-3xl font-bold text-wood mb-2 text-center">Welcome Back</h2>
                 <p className="text-center text-dark/60 mb-8">Sign in to manage your cafe</p>
+
+                {/* Network Diagnostic Panel */}
+                <div className="mb-6 p-3 bg-gray-50 rounded border border-gray-200 text-xs text-gray-600">
+                    <p><strong>API URL:</strong> {API_URL}</p>
+                    <p><strong>Backend Status:</strong> <span className={health.startsWith('Online') ? 'text-green-600 font-bold' : 'text-red-600 font-bold'}>{health}</span></p>
+                </div>
 
                 <form onSubmit={handleLogin} className="space-y-6">
                     <div>

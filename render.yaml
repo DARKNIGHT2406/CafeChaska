@@ -3,7 +3,7 @@ services:
     name: cafe-chaska-api
     env: node
     plan: free
-    buildCommand: cd apps/api && npm install
+    buildCommand: cd apps/api && rm -rf node_modules package-lock.json && npm install
     startCommand: cd apps/api && node server.js
     envVars:
       - key: NODE_VERSION

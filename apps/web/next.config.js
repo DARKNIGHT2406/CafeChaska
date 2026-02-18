@@ -20,7 +20,7 @@ const nextConfig = {
         ignoreBuildErrors: true
     },
     async rewrites() {
-        const API_URL = process.env.API_URL || 'http://localhost:5000';
+        const API_URL = process.env.API_URL || 'https://cafe-chaska-api.onrender.com';
         return [
             {
                 source: '/api/:path*',
